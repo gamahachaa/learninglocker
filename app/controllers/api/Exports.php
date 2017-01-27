@@ -59,7 +59,7 @@ class Exports extends Resources {
     return IlluminateResponse::stream(function () use ($model, $opts) {
       if (ob_get_level() == 0) ob_start();
       // Outputs the field names (column headers).
-      echo implode(',', array_map(function ($field) {
+      echo implode(self::CSV_DELIMITER, array_map(function ($field) {
         return $field['to'];
       }, $model->fields))."\n";
 
@@ -70,7 +70,7 @@ class Exports extends Resources {
         },
         'stream' => function ($obj) {
           // Outputs the field values (column values).
-          echo implode(',', array_map(function ($value) {
+          echo implode(self::CSV_DELIMITER, array_map(function ($value) {
             return $this->quoteCSV($value);flush();ob_flush();
           }, $obj));
         }
